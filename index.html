@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOY SHOP - Auto Payment System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Pre-Login Container (Visible Sebelum Login) -->
+    <div id="preLoginContainer" class="container">
+        <div class="header">
+            <h1><i class="fas fa-wallet"></i> BOY SHOP AutoPay</h1>
+            <p>Sistem Auto Payment Touch 'n Go eWallet</p>
+        </div>
+        
+        <div class="main-content">
+            <!-- Login Form -->
+            <div id="loginSection" class="form-section active">
+                <h2><i class="fas fa-sign-in-alt"></i> Log Masuk</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email:</label>
+                        <input type="email" id="loginEmail" required placeholder="contoh@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> Kata Laluan:</label>
+                        <input type="password" id="loginPassword" required placeholder="Kata laluan anda">
+                    </div>
+                    <button type="submit" class="btn btn-login">Log Masuk</button>
+                </form>
+                <p class="switch-form">Tiada akaun? <a href="#" id="showRegister">Daftar di sini</a></p>
+            </div>
+            
+            <!-- Register Form -->
+            <div id="registerSection" class="form-section">
+                <h2><i class="fas fa-user-plus"></i> Daftar Akaun</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regEmail"><i class="fas fa-envelope"></i> Email:</label>
+                        <input type="email" id="regEmail" required placeholder="contoh@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword"><i class="fas fa-lock"></i> Kata Laluan:</label>
+                        <input type="password" id="regPassword" required placeholder="Kata laluan anda">
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone"><i class="fas fa-phone-alt"></i> Nombor Telefon WhatsApp:</label>
+                        <input type="tel" id="regPhone" required placeholder="Contoh: 01135041561" pattern="[0-9]{10,11}">
+                    </div>
+                    <button type="submit" class="btn btn-register">Daftar Akaun</button>
+                </form>
+                <p class="switch-form">Sudah ada akaun? <a href="#" id="showLogin">Log Masuk</a></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><i class="fas fa-shield-alt"></i> Sistem dilindungi | <i class="fas fa-user-lock"></i> 1000 Pengguna Sahaja</p>
+            <p>Developer: BOY SHOP | Telegram: @boyjutawan</p>
+            <p>Hubungi: KECHIXXDARWISH@GMAIL.COM | 01135041561</p>
+        </div>
+    </div>
+
+    <!-- Post-Login Container (Visible Selepas Login) -->
+    <div id="postLoginContainer" class="container" style="display: none;">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="logo-section">
+                <h1><i class="fas fa-wallet"></i> BOY SHOP AutoPay</h1>
+                <p class="user-welcome">Selamat datang, <span id="userEmail"></span></p>
+            </div>
+            <div class="user-section">
+                <div class="user-balance">
+                    <i class="fas fa-coins"></i> Baki: RM <span id="userBalance">0.00</span>
+                </div>
+                <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Log Keluar</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="nav-link" data-section="services"><i class="fas fa-shopping-cart"></i> Service</a></li>
+                <li><a href="#" class="nav-link" data-section="payment"><i class="fas fa-credit-card"></i> Payment</a></li>
+                <li><a href="#" class="nav-link" data-section="premium"><i class="fas fa-crown"></i> Premium</a></li>
+                <li><a href="#" class="nav-link" data-section="profile"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="#" class="nav-link" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#" class="nav-link" data-section="help"><i class="fas fa-question-circle"></i> Pusat Bantuan</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Sections -->
+        <main class="dashboard-content">
+            <!-- Home Section -->
+            <section id="homeSection" class="content-section active">
+                <h2><i class="fas fa-home"></i> Dashboard Utama</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Auto Payment Aktif</h3>
+                        <p>Sistem Touch 'n Go AutoDebit</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Akaun Premium</h3>
+                        <p>Status: <span id="premiumStatus">Basic</span></p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-history"></i>
+                        <h3>Transaksi Terkini</h3>
+                        <p id="recentTransaction">Tiada transaksi</p>
+                    </div>
+                </div>
+                
+                <div class="qr-section">
+                    <h3><i class="fas fa-qrcode"></i> Bayar melalui QR Code</h3>
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=NGO:100807472080" alt="QR Payment" id="qrCode">
+                        <p>NGO Account: 100807472080</p>
+                        <p>Imbas QR untuk bayaran Touch 'n Go</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="servicesSection" class="content-section">
+                <h2><i class="fas fa-shopping-cart"></i> Service Tersedia</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <h3>UNBANNED WHATSAPP</h3>
+                        <p class="service-price">RM20</p>
+                        <p class="service-desc">Buka sekatan akaun WhatsApp anda</p>
+                        <button class="btn-buy" data-service="unbanned" data-price="20">Beli Sekarang</button>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>Nombor WhatsApp Malaysia</h3>
+                        <p class="service-price">RM15</p>
+                        <p class="service-desc">Nombor WhatsApp Malaysia aktif</p>
+                        <button class="btn-buy" data-service="whatsapp" data-price="15">Beli Sekarang</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment Section -->
+            <section id="paymentSection" class="content-section">
+                <h2><i class="fas fa-credit-card"></i> Auto Payment System</h2>
+                <div class="payment-container">
+                    <div class="payment-methods">
+                        <h3><i class="fas fa-mobile-alt"></i> Touch 'n Go eWallet</h3>
+                        <div class="payment-card">
+                            <div class="payment-logo">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="payment-details">
+                                <h4>Auto Debit System</h4>
+                                <p>Debit automatik dari eWallet anda</p>
+                                <div class="autopay-toggle">
+                                    <label for="autopayToggle">
+                                        <input type="checkbox" id="autopayToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                        Auto Debit Aktif
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-form">
+                            <h4><i class="fas fa-file-signature"></i> Kebenaran Auto Debit</h4>
+                            <div class="authorization-box">
+                                <p>"Saya ingin memohon perkhidmatan Autodebit/Autopay untuk pembayaran kad kredit saya secara automatik setiap bulan."</p>
+                                <p>"Sila debit jumlah penuh (atau minimum) bil kad kredit saya dari akaun bank/kad kredit yang dinyatakan di bawah."</p>
+                                <p>"Saya mengesahkan untuk membenarkan bank mendebit jumlah bil kad kredit saya secara automatik pada tarikh matang."</p>
+                                
+                                <div class="authorize-checkbox">
+                                    <input type="checkbox" id="authorizeCheck" checked>
+                                    <label for="authorizeCheck">Saya membenarkan auto debit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="topup-section">
+                        <h3><i class="fas fa-money-bill-wave"></i> Top Up eWallet</h3>
+                        <div class="topup-form">
+                            <div class="form-group">
+                                <label for="topupAmount">Jumlah Top Up (RM):</label>
+                                <input type="number" id="topupAmount" min="10" max="1000" value="50">
+                            </div>
+                            <button id="topupBtn" class="btn-topup">Top Up Sekarang</button>
+                            <div class="payment-status" id="paymentStatus">
+                                <p>Status: <span class="status-ready">Sedia untuk transaksi</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Premium Section -->
+            <section id="premiumSection" class="content-section">
+                <h2><i class="fas fa-crown"></i> Keahlian Premium</h2>
+                <div class="premium-cards">
+                    <div class="premium-card">
+                        <h3>Basic</h3>
+                        <div class="premium-price">RM20</div>
+                        <ul class="premium-features">
+                            <li><i class="fas fa-check"></i> Auto Payment Standard</li>
+                            <li><i class="fas fa-check"></i> Support WhatsApp</li>
+                            <li><i class="fas fa-times"></i> Priority Support</li>
+                        </ul>
+                        <button class="btn-premium" data-tier="basic" data-price="20">Pilih Basic</button>
+                    </div>
+                    
+                    <div class="premium-card featured">
+                        <div class="premium-badge">POPULAR</div>
+                        <h3>Premium</h3>
+                        <div class="premium-price">RM35</div>
+                        <ul class="premium-features">
+                            <li><i class="fas fa-check"></i> Semua Basic Features</li>
+                            <li><i class="fas fa-check"></i> Priority Support</li>
+                            <li><i class="fas fa-check"></i> Diskon 10% Service</li>
+                        </ul>
+                        <button class="btn-premium" data-tier="premium" data-price="35">Pilih Premium</button>
+                    </div>
+                    
+                    <div class="premium-card">
+                        <h3>VIP</h3>
+                        <div class="premium-price">RM45</div>
+                        <ul class="premium-features">
+                            <li><i class="fas fa-check"></i> Semua Premium Features</li>
+                            <li><i class="fas fa-check"></i> 24/7 Support</li>
+                            <li><i class="fas fa-check"></i> Diskon 20% Service</li>
+                        </ul>
+                        <button class="btn-premium" data-tier="vip" data-price="45">Pilih VIP</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profileSection" class="content-section">
+                <h2><i class="fas fa-user-circle"></i> Profile Pengguna</h2>
+                <div class="profile-container">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-details">
+                            <h3 id="profileEmail"></h3>
+                            <p><i class="fas fa-phone-alt"></i> <span id="profilePhone"></span></p>
+                            <p><i class="fas fa-crown"></i> Tahap: <span id="profileTier">Basic</span></p>
+                            <p><i class="fas fa-calendar-alt"></i> Daftar: <span id="profileJoinDate"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-edit">
+                        <h3><i class="fas fa-edit"></i> Edit Profile</h3>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="editPhone">Nombor Telefon:</label>
+                                <input type="tel" id="editPhone" placeholder="Contoh: 01135041561">
+                            </div>
+                            <button type="submit" class="btn-save">Simpan Perubahan</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="content-section">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-credit-card"></i> Payment Settings</h3>
+                        <div class="settings-option">
+                            <label>
+                                <input type="checkbox" checked>
+                                Auto Payment untuk semua transaksi
+                            </label>
+                        </div>
+                        <div class="settings-option">
+                            <label>
+                                <input type="checkbox" checked>
+                                Notifikasi pembayaran
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3><i class="fas fa-lock"></i> Ubah Kata Laluan</h3>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Kata Laluan Semasa:</label>
+                                <input type="password" id="currentPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Kata Laluan Baru:</label>
+                                <input type="password" id="newPassword">
+                            </div>
+                            <button type="submit" class="btn-save">Ubah Kata Laluan</button>
+                        </form>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3><i class="fas fa-sliders-h"></i> System Settings</h3>
+                        <div class="settings-option">
+                            <label>Tema:
+                                <select id="themeSelect">
+                                    <option value="light">Light</option>
+                                    <option value="dark" selected>Dark</option>
+                                    <option value="anime">Anime</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Help Section -->
+            <section id="helpSection" class="content-section">
+                <h2><i class="fas fa-question-circle"></i> Pusat Bantuan</h2>
+                <div class="help-container">
+                    <div class="help-bot">
+                        <div class="bot-header">
+                            <i class="fas fa-robot"></i>
+                            <h3>SUPPORTBOY - Bot Bantuan</h3>
+                        </div>
+                        <div class="bot-messages" id="botMessages">
+                            <div class="bot-message">
+                                <p>Hello! Saya SupportBoy. Ada apa yang boleh saya bantu?</p>
+                            </div>
+                        </div>
+                        <div class="bot-input">
+                            <input type="text" id="userQuestion" placeholder="Tanya apa sahaja untuk bantuan...">
+                            <button id="askBot"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="help-info">
+                        <h3><i class="fas fa-headset"></i> Bantuan Langsung</h3>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone-alt"></i> WhatsApp Support: <strong>BOYSUPPORT</strong></p>
+                            <p><i class="fas fa-envelope"></i> Email: KECHIXXDARWISH@GMAIL.COM</p>
+                            <p><i class="fas fa-phone"></i> Telefon: 01135041561</p>
+                            <p><i class="fab fa-telegram"></i> Telegram: @boyjutawan</p>
+                        </div>
+                        
+                        <div class="faq-section">
+                            <h4>Soalan Lazim</h4>
+                            <div class="faq-item">
+                                <p class="faq-question">Bagaimana sistem Auto Payment berfungsi?</p>
+                                <p class="faq-answer">Sistem akan auto debit dari Touch 'n Go eWallet anda untuk setiap pembelian.</p>
+                            </div>
+                            <div class="faq-item">
+                                <p class="faq-question">Berapa lama untuk dapatkan service?</p>
+                                <p class="faq-answer">Service akan diterima serta-merta selepas pembayaran berjaya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>© 2024 BOY SHOP AutoPay System. Hakcipta terpelihara.</p>
+            <p>Developer: BOY SHOP | Telefon: 01135041561 | Email: KECHIXXDARWISH@GMAIL.COM</p>
+            <p>Akaun NGO: 100807472080 | WhatsApp Bot: BOYSUPPORT</p>
+        </footer>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-credit-card"></i> Proses Pembayaran</h2>
+            <div class="modal-body">
+                <p id="paymentDescription">Membeli: Unbanned WhatsApp</p>
+                <p>Jumlah: RM <span id="paymentAmount">20</span></p>
+                
+                <div class="payment-qr">
+                    <h3>Bayar melalui QR Code</h3>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TOUCHNGO_PAYMENT_NGO:100807472080_AMOUNT:" id="modalQr" alt="QR Payment">
+                    <p>Imbas QR dengan Touch 'n Go eWallet</p>
+                </div>
+                
+                <div class="autopay-confirm">
+                    <h3><i class="fas fa-bolt"></i> Auto Payment Akan Diproses</h3>
+                    <p>Sistem akan auto debit dari eWallet anda dalam 10 saat...</p>
+                    <div class="countdown" id="countdown">10</div>
+                    <button id="confirmPayment" class="btn-payment">Proses Auto Payment Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Pembayaran Berjaya!</h2>
+            <p id="successMessage">Service anda telah berjaya dibeli.</p>
+            <p>Service akan dihantar melalui WhatsApp dalam masa 5 minit.</p>
+            <button id="closeSuccess" class="btn-success">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
